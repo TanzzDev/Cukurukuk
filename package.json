@@ -1,0 +1,44 @@
+{
+  "name": "drowify-music",
+  "private": true,
+  "version": "3.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:web": "vite",
+    "dev:server": "node server.cjs",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "node server.cjs",
+    "test": "node --test tests/*.test.js",
+    "release:apk": "node scripts/apk-release.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/figtree": "^5.3.0",
+    "@fontsource-variable/unbounded": "^5.3.0",
+    "@vercel/blob": "^2.9.0",
+    "axios": "^1.7.7",
+    "compression": "^1.8.2",
+    "crypto-js": "^4.2.0",
+    "express": "^4.21.0",
+    "jose": "^6.2.17",
+    "lucide-react": "^0.453.0",
+    "motion": "^14.6.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.2",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.13",
+    "vite": "^5.4.8"
+  },
+  "description": "Drowify Music — streaming musik dengan lirik sinkron, antrean pintar, Drowify Streak, dan akun Google.",
+  "engines": {
+    "node": ">=20"
+  },
+  "author": "Sulthan Nazirul Asrofi (TanzzDev)"
+}
