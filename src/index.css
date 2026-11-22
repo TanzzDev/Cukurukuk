@@ -1,0 +1,791 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { -webkit-tap-highlight-color: transparent; }
+
+:root, [data-theme="dark"], .dark {
+    --bg-color: #09090b;
+    --card-bg: #141416;
+    --card-hover: #1f1f23;
+    --card-border: rgba(255, 255, 255, 0.08);
+    --dock-bg: rgba(18, 18, 20, 0.9);
+    --text-primary: #ffffff;
+    --text-secondary: #a1a1aa;
+    --text-muted: #71717a;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --header-border: rgba(255, 255, 255, 0.08);
+    --header-bg: rgba(9, 9, 11, 0.85);
+    --chip-bg: rgba(255, 255, 255, 0.06);
+    --chip-text: rgba(255, 255, 255, 0.85);
+    --chip-border: rgba(255, 255, 255, 0.12);
+    --chip-active-bg: #ffffff;
+    --chip-active-text: #000000;
+    --nm-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    --banner-filter: invert(1);
+    --logo-filter: none;
+    --miniplayer-bg: rgba(18, 18, 20, 0.95);
+    --fullplayer-bg: #09090b;
+    --banner-overlay-bg: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 50%, rgba(9,9,11,0.85) 100%);
+    --splash-bg: radial-gradient(circle at 50% 45%, #18181b 0%, #050505 70%);
+
+    /* Navbar GooeyNav dark tokens */
+    --nav-active-pill: #ffffff;
+    --nav-pill-shadow: rgba(255, 255, 255, 0.35);
+    --nav-active-icon: #000000;
+    --nav-inactive-icon: rgba(255, 255, 255, 0.55);
+    --nav-inactive-hover: #ffffff;
+}
+
+[data-theme="light"], .light {
+    --bg-color: #fafafa;
+    --card-bg: #ffffff;
+    --card-hover: #f4f4f5;
+    --card-border: rgba(0, 0, 0, 0.08);
+    --dock-bg: rgba(255, 255, 255, 0.94);
+    --text-primary: #09090b;
+    --text-secondary: #52525b;
+    --text-muted: #71717a;
+    --border-color: rgba(0, 0, 0, 0.08);
+    --header-border: rgba(0, 0, 0, 0.08);
+    --header-bg: rgba(250, 250, 250, 0.88);
+    --chip-bg: rgba(0, 0, 0, 0.05);
+    --chip-text: #18181b;
+    --chip-border: rgba(0, 0, 0, 0.1);
+    --chip-active-bg: #09090b;
+    --chip-active-text: #ffffff;
+    --nm-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    --banner-filter: none;
+    --logo-filter: invert(1);
+    --miniplayer-bg: rgba(255, 255, 255, 0.96);
+    --fullplayer-bg: #ffffff;
+    --banner-overlay-bg: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.4) 50%, rgba(250,250,250,0.85) 100%);
+    --splash-bg: radial-gradient(circle at 50% 45%, #ffffff 0%, #e4e4e7 70%);
+
+    /* Navbar GooeyNav light tokens */
+    --nav-active-pill: #09090b;
+    --nav-pill-shadow: rgba(0, 0, 0, 0.2);
+    --nav-active-icon: #ffffff;
+    --nav-inactive-icon: #71717a;
+    --nav-inactive-hover: #09090b;
+}
+
+html, body {
+    background: var(--bg-color);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.pb-safe { padding-bottom: env(safe-area-inset-bottom, 20px); }
+
+.pt-safe { padding-top: max(2.5rem, env(safe-area-inset-top)); }
+
+.fill-current { fill: currentColor; }
+
+.filter-tab.active { background: var(--chip-active-bg) !important; color: var(--chip-active-text) !important; }
+
+/* Performance optimization: lazy off-screen rendering */
+.cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 320px;
+}
+
+/* ===== Smooth Adaptive Theme Background ===== */
+.app-bg {
+    position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
+    background: var(--bg-color);
+    transition: background 0.2s ease-out;
+}
+
+/* ===== Theme-Adaptive Cards & Base Styles ===== */
+.glass-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    box-shadow: var(--nm-shadow);
+    color: var(--text-primary);
+    transition: all 0.25s ease;
+}
+
+.glass-card:hover {
+    background: var(--card-hover);
+    border-color: var(--border-color);
+}
+
+.glass-dock {
+    background: var(--dock-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--nm-shadow);
+    color: var(--text-primary);
+}
+
+.glass {
+    background: var(--card-bg);
+    box-shadow: var(--nm-shadow);
+    border: 1px solid var(--border-color);
+    border-radius: 1.25rem;
+    color: var(--text-primary);
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.glass-hover {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease;
+}
+
+.glass-hover:hover {
+    background: var(--card-hover);
+    transform: translateY(-2px);
+}
+
+.glass-strong {
+    background: var(--card-bg);
+    box-shadow: var(--nm-shadow);
+    border: 1px solid var(--border-color);
+    border-radius: 1.25rem;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.glass-input {
+    background: var(--card-bg);
+    box-shadow: var(--nm-shadow);
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    color: var(--text-primary);
+    transition: box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.glass-input:focus-within, .glass-input:focus {
+    border-color: rgba(99, 102, 241, 0.4);
+}
+
+.glass-pane {
+    background: var(--card-bg);
+}
+
+.glass-edge {
+    border: 1px solid var(--border-color);
+}
+
+/* Chrome / glossy gray accent */
+.chrome-text { color: #ffffff; font-weight: 900; }
+
+.btn-chrome {
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-color);
+    box-shadow: var(--nm-shadow-flat-sm);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 0.75rem;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-chrome:hover {
+    transform: scale(1.02);
+}
+
+.btn-chrome:active {
+    box-shadow: var(--nm-shadow-inset-sm);
+    transform: scale(0.98);
+}
+
+.shine-sweep { position: relative; }
+
+.nav-blur {
+    background: rgba(14, 15, 22, 0.96);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.artist-photo {
+    width: 120px; height: 120px; border-radius: 50%; object-fit: cover;
+    border: 3px solid var(--border-color); box-shadow: var(--nm-shadow-flat); background: var(--bg-color);
+}
+
+@keyframes fadeUp {
+    from { transform: translateY(12px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-slide-up { animation: fadeUp 0.35s ease-out forwards; }
+
+/* High-Performance Blurred Artwork Background for Player & Lyrics */
+.player-bg-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+    background-color: #06070a;
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+.player-bg-blur-img {
+    position: absolute;
+    inset: -10%;
+    width: 120%;
+    height: 120%;
+    object-fit: cover;
+    filter: blur(24px) brightness(0.65) contrast(1.1);
+    -webkit-filter: blur(24px) brightness(0.65) contrast(1.1);
+    opacity: 0.85;
+    transition: opacity 0.3s ease;
+    will-change: opacity, transform;
+    transform: translateZ(0);
+}
+
+.player-bg-glow {
+    position: absolute;
+    inset: -25%;
+    z-index: 0;
+    opacity: 0;
+    mix-blend-mode: screen;
+    filter: blur(34px);
+    background-repeat: no-repeat;
+    background-image:
+        radial-gradient(circle at 22% 28%, var(--glow-c1, transparent) 0%, transparent 60%),
+        radial-gradient(circle at 78% 35%, var(--glow-c2, transparent) 0%, transparent 60%),
+        radial-gradient(circle at 42% 82%, var(--glow-c3, transparent) 0%, transparent 60%);
+    background-size: 140% 140%;
+    animation: glowDrift 9s ease-in-out infinite;
+    will-change: transform;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+}
+
+@keyframes glowDrift {
+    0%   { transform: translate3d(0%, 0%, 0) scale(1) rotate(0deg); }
+    20%  { transform: translate3d(6%, -8%, 0) scale(1.14) rotate(9deg); }
+    40%  { transform: translate3d(-9%, 4%, 0) scale(0.92) rotate(-7deg); }
+    60%  { transform: translate3d(5%, 9%, 0) scale(1.1) rotate(11deg); }
+    80%  { transform: translate3d(-6%, -6%, 0) scale(0.95) rotate(-9deg); }
+    100% { transform: translate3d(0%, 0%, 0) scale(1) rotate(0deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .player-bg-glow { animation: none; }
+}
+
+.player-bg-vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background: linear-gradient(to bottom, rgba(8,9,13,0.55) 0%, rgba(8,9,13,0.25) 45%, rgba(8,9,13,0.8) 100%);
+}
+
+/* Extra Dark & Heavy Blur Background for Lyrics Overlay */
+#lyrics-overlay {
+    background-color: #05060a !important;
+}
+
+#lyrics-overlay .player-bg-blur-img {
+    filter: blur(60px) brightness(0.18) contrast(1.2) saturate(110%) !important;
+    -webkit-filter: blur(60px) brightness(0.18) contrast(1.2) saturate(110%) !important;
+    opacity: 0.65 !important;
+}
+
+#lyrics-overlay .player-bg-vignette {
+    background: radial-gradient(circle at center, rgba(4,5,8,0.82) 0%, rgba(4,5,8,0.96) 100%),
+                linear-gradient(to bottom, rgba(4,5,8,0.9) 0%, rgba(4,5,8,0.8) 50%, rgba(4,5,8,0.98) 100%) !important;
+}
+
+/* Premium Lyric Highlighting Styling */
+#lyrics-scroll-container {
+    -webkit-overflow-scrolling: touch;
+}
+
+.lyric-line {
+    transition: opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1), transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), color 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.35);
+    opacity: 0.4;
+    padding: 10px 0;
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+    will-change: opacity, color, transform;
+    cursor: pointer;
+    text-align: left;
+    transform-origin: left center;
+}
+
+@media (min-width: 768px) {
+    .lyric-line {
+        font-size: 2.15rem;
+        padding: 14px 0;
+        line-height: 1.3;
+    }
+}
+
+.lyric-line.active-lyric {
+    opacity: 1 !important;
+    color: #ffffff !important;
+    transform: scale(1.06) translateX(4px);
+}
+
+.lyric-line.past-lyric {
+    opacity: 0.28 !important;
+    color: rgba(255, 255, 255, 0.4) !important;
+    transform: scale(0.97);
+}
+
+.lyric-translation {
+    display: block;
+    font-size: 0.58em;
+    font-weight: 500;
+    opacity: 0.75;
+    margin-top: 4px;
+    letter-spacing: 0;
+    line-height: 1.35;
+    color: inherit;
+}
+
+.inline-lyric-line .lyric-translation {
+    font-size: 0.78em;
+    margin-top: 2px;
+    opacity: 0.8;
+    font-weight: 500;
+}
+
+/* Inline Lyric Highlighting for FullPlayer Compact Box */
+.inline-lyric-line {
+    transition: opacity 0.25s ease, color 0.25s ease;
+    font-size: 0.92rem;
+    line-height: 1.4;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.4);
+    opacity: 0.5;
+    padding: 5px 0;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    text-align: left;
+    word-break: break-word;
+}
+
+.inline-lyric-line.active-lyric {
+    opacity: 1 !important;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+}
+
+.inline-lyric-line.past-lyric {
+    opacity: 0.3 !important;
+    color: rgba(255, 255, 255, 0.35) !important;
+}
+
+/* Neumorphic Equalizer & Slider styling */
+.eq-slider {
+    -webkit-appearance: none;
+    width: 8px;
+    height: 150px;
+    background: var(--bg-color);
+    box-shadow: var(--nm-shadow-inset-sm);
+    border-radius: 4px;
+    outline: none;
+    writing-mode: bt-lr;
+    -webkit-appearance: slider-vertical;
+}
+
+.eq-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--bg-color);
+    box-shadow: var(--nm-shadow-flat-sm);
+    border: 2px solid var(--border-color);
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.eq-slider::-webkit-slider-thumb:active {
+    transform: scale(1.15);
+    box-shadow: var(--nm-shadow-inset-sm);
+}
+
+/* Animated Bouncing Equalizer Bars for Active Track */
+@keyframes eqBounce1 { 0%, 100% { height: 3px; } 50% { height: 20px; } }
+
+@keyframes eqBounce2 { 0%, 100% { height: 18px; } 50% { height: 4px; } }
+
+@keyframes eqBounce3 { 0%, 100% { height: 5px; } 50% { height: 24px; } }
+
+@keyframes eqBounce4 { 0%, 100% { height: 22px; } 50% { height: 6px; } }
+
+@keyframes eqBounce5 { 0%, 100% { height: 4px; } 50% { height: 16px; } }
+
+@keyframes eqBounce6 { 0%, 100% { height: 26px; } 50% { height: 8px; } }
+
+.animate-eq-1 { animation: eqBounce1 0.45s ease-in-out infinite; }
+
+.animate-eq-2 { animation: eqBounce2 0.65s ease-in-out infinite; }
+
+.animate-eq-3 { animation: eqBounce3 0.50s ease-in-out infinite; }
+
+.animate-eq-4 { animation: eqBounce4 0.80s ease-in-out infinite; }
+
+.animate-eq-5 { animation: eqBounce5 0.60s ease-in-out infinite; }
+
+.animate-eq-6 { animation: eqBounce6 0.70s ease-in-out infinite; }
+
+/* Equalizer live-animated bar visualizer */
+.eq-bar {
+    width: 5px;
+    height: 10px;
+    background: linear-gradient(to top, #6b7280, #ffffff);
+    border-radius: 2px;
+    transition: height 0.1s ease-out;
+}
+
+.nav-icon-wrapper {
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Page Slide Animations */
+@keyframes slideInRight {
+    0% { transform: translateX(30px); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInLeft {
+    0% { transform: translateX(-30px); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+.animate-slide-right {
+    animation: slideInRight 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-slide-left {
+    animation: slideInLeft 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Search Results & Cards Entrance Animations */
+@keyframes cardUp {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cardLeft {
+    0% { opacity: 0; transform: translateX(-10px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+
+.animate-card-up {
+    animation: cardUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-card-left {
+    animation: cardLeft 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-slide-up-modal {
+    animation: slideUp 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ===== UNIVERSAL LIGHT THEME CONTRAST & ADAPTATION OVERRIDES ===== */
+[data-theme="light"] {
+    color-scheme: light;
+}
+
+/* Headings and primary text in light mode become dark */
+[data-theme="light"] .text-white:not(.bg-indigo-600 *):not(.bg-indigo-500 *):not(.bg-rose-500 *):not(.bg-emerald-500 *):not(.bg-slate-900 *):not(.bg-black *):not(.btn-colored *):not(.badge-colored):not([data-preserve-white="true"] *) {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .text-white\/90:not(.bg-indigo-600 *):not(.bg-indigo-500 *):not(.bg-rose-500 *):not(.bg-emerald-500 *):not(.bg-slate-900 *):not(.bg-black *),
+[data-theme="light"] .text-white\/80:not(.bg-indigo-600 *):not(.bg-indigo-500 *):not(.bg-rose-500 *):not(.bg-emerald-500 *):not(.bg-slate-900 *):not(.bg-black *) {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .text-white\/70,
+[data-theme="light"] .text-white\/60,
+[data-theme="light"] .text-\[\#b3b3b3\],
+[data-theme="light"] .text-\[\#a0a5b0\] {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="light"] .text-white\/50,
+[data-theme="light"] .text-white\/40,
+[data-theme="light"] .text-white\/30 {
+    color: var(--text-muted) !important;
+}
+
+/* Lucide and SVG icons adaptation in light mode */
+[data-theme="light"] svg.text-white:not(.bg-indigo-600 *):not(.bg-indigo-500 *):not(.bg-rose-500 *):not(.bg-emerald-500 *):not(.bg-slate-900 *):not(.bg-black *),
+[data-theme="light"] .text-white > svg:not(.bg-indigo-600 *):not(.bg-indigo-500 *):not(.bg-rose-500 *):not(.bg-emerald-500 *):not(.bg-slate-900 *):not(.bg-black *) {
+    stroke: var(--text-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="light"] svg.text-white\/60,
+[data-theme="light"] svg.text-white\/70,
+[data-theme="light"] .text-white\/60 > svg,
+[data-theme="light"] .text-white\/70 > svg {
+    stroke: var(--text-secondary) !important;
+    color: var(--text-secondary) !important;
+}
+
+/* Cards, modals, lists, sheets and container surfaces in Light Mode */
+[data-theme="light"] .glass,
+[data-theme="light"] .glass-card,
+[data-theme="light"] .glass-strong,
+[data-theme="light"] .glass-input,
+[data-theme="light"] .bg-\[\#20222c\],
+[data-theme="light"] .bg-\[\#1c1e26\],
+[data-theme="light"] .bg-\[\#14151e\],
+[data-theme="light"] .bg-\[\#1a1b22\],
+[data-theme="light"] .bg-\[\#181922\] {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] .hover\:bg-\[\#282b38\]:hover {
+    background-color: var(--card-hover) !important;
+}
+
+[data-theme="light"] .bg-\[\#343a4e\],
+[data-theme="light"] .bg-\[\#2e3344\] {
+    background-color: #e2e8f0 !important;
+    border-color: rgba(99, 102, 241, 0.4) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Semi-transparent overlays in light mode */
+[data-theme="light"] .bg-black\/40,
+[data-theme="light"] .bg-black\/30,
+[data-theme="light"] .bg-black\/25,
+[data-theme="light"] .bg-black\/50,
+[data-theme="light"] .bg-black\/60 {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .bg-white\/5,
+[data-theme="light"] .bg-white\/10 {
+    background-color: rgba(0, 0, 0, 0.05) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .bg-white\/15,
+[data-theme="light"] .bg-white\/20 {
+    background-color: rgba(0, 0, 0, 0.08) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Borders in Light Mode */
+[data-theme="light"] .border-white\/5,
+[data-theme="light"] .border-white\/10,
+[data-theme="light"] .border-white\/15,
+[data-theme="light"] .border-white\/20,
+[data-theme="light"] .border-white\/30,
+[data-theme="light"] .border-white\/40 {
+    border-color: var(--border-color) !important;
+}
+
+/* ===== FULLPLAYER LIGHT THEME STYLES ===== */
+[data-theme="light"] #full-player {
+    background-color: #f8fafc !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="light"] #full-player .player-bg-container {
+    background-color: #f1f5f9 !important;
+}
+
+[data-theme="light"] #full-player .player-bg-blur-img {
+    filter: blur(40px) brightness(1.2) saturate(140%) contrast(0.92) !important;
+    -webkit-filter: blur(40px) brightness(1.2) saturate(140%) contrast(0.92) !important;
+    opacity: 0.38 !important;
+}
+
+[data-theme="light"] #full-player .player-bg-vignette {
+    background: linear-gradient(to bottom, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.3) 45%, rgba(255,255,255,0.88) 100%) !important;
+}
+
+[data-theme="light"] #full-player .player-bg-glow {
+    opacity: 0.2 !important;
+    mix-blend-mode: multiply !important;
+}
+
+[data-theme="light"] #full-player .text-white\/70,
+[data-theme="light"] #full-player .text-white\/80 {
+    color: #475569 !important;
+}
+
+[data-theme="light"] #full-player .text-white\/90,
+[data-theme="light"] #full-player .text-white {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] #full-player button:hover {
+    background-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Segment Pill (Cover / Lyrics) in FullPlayer */
+[data-theme="light"] #full-player .bg-black\/40 {
+    background-color: rgba(0, 0, 0, 0.06) !important;
+    border-color: rgba(0, 0, 0, 0.08) !important;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] #full-player .bg-black\/40 button.bg-white\/20 {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2) !important;
+}
+
+[data-theme="light"] #full-player .bg-black\/40 button.bg-transparent {
+    color: #64748b !important;
+    background-color: transparent !important;
+}
+
+/* Compact Lyrics Box in FullPlayer */
+[data-theme="light"] #full-player .bg-black\/50 {
+    background-color: rgba(255, 255, 255, 0.92) !important;
+    border-color: rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] #full-player .inline-lyric-line {
+    color: rgba(15, 23, 42, 0.4) !important;
+}
+
+[data-theme="light"] #full-player .inline-lyric-line.active-lyric {
+    color: #0f172a !important;
+    font-weight: 800 !important;
+}
+
+[data-theme="light"] #full-player .inline-lyric-line.past-lyric {
+    color: rgba(15, 23, 42, 0.28) !important;
+}
+
+/* Progress & Volume Slider Tracks in FullPlayer */
+[data-theme="light"] #full-player .bg-white\/20 {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="light"] #full-player .bg-white\/20 > .bg-white {
+    background-color: #0f172a !important;
+}
+
+[data-theme="light"] #full-player .bg-white\/20 > .bg-white > .bg-white {
+    background-color: #0f172a !important;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.25) !important;
+}
+
+/* Play/Pause main button in FullPlayer: inverted to sleek dark slate with white icons */
+[data-theme="light"] #full-player button.bg-white.text-black {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.28) !important;
+}
+
+[data-theme="light"] #full-player button.bg-white.text-black svg {
+    fill: #ffffff !important;
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+}
+
+[data-theme="light"] #full-player button.bg-white.text-black .border-black {
+    border-color: #ffffff !important;
+}
+
+/* Prev / Next buttons in FullPlayer */
+[data-theme="light"] #full-player button svg.fill-current {
+    fill: #0f172a !important;
+    color: #0f172a !important;
+}
+
+/* Shuffle & Repeat in FullPlayer */
+[data-theme="light"] #full-player button:has(> svg.lucide-shuffle),
+[data-theme="light"] #full-player button:has(> svg.lucide-repeat) {
+    color: #475569 !important;
+}
+
+[data-theme="light"] #full-player button:has(> svg.lucide-shuffle) svg,
+[data-theme="light"] #full-player button:has(> svg.lucide-repeat) svg {
+    stroke: #475569 !important;
+}
+
+[data-theme="light"] #full-player button:has(> svg.lucide-shuffle) .bg-white,
+[data-theme="light"] #full-player button:has(> svg.lucide-repeat) .text-white {
+    background-color: #0f172a !important;
+    color: #0f172a !important;
+}
+
+/* Offline & Like buttons in FullPlayer */
+[data-theme="light"] #full-player button.bg-white\/10 {
+    background-color: rgba(0, 0, 0, 0.05) !important;
+    border-color: rgba(0, 0, 0, 0.08) !important;
+    color: #334155 !important;
+}
+
+[data-theme="light"] #full-player button.bg-white\/10:hover {
+    background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Fullscreen Lyrics Overlay Light Mode */
+[data-theme="light"] #lyrics-overlay {
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
+}
+
+[data-theme="light"] #lyrics-overlay .player-bg-container {
+    background-color: #f1f5f9 !important;
+}
+
+[data-theme="light"] #lyrics-overlay .player-bg-blur-img {
+    filter: blur(50px) brightness(1.22) contrast(0.9) saturate(130%) !important;
+    -webkit-filter: blur(50px) brightness(1.22) contrast(0.9) saturate(130%) !important;
+    opacity: 0.3 !important;
+}
+
+[data-theme="light"] #lyrics-overlay .player-bg-vignette {
+    background: radial-gradient(circle at center, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.95) 100%),
+                linear-gradient(to bottom, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.75) 50%, rgba(255,255,255,0.95) 100%) !important;
+}
+
+[data-theme="light"] #lyrics-overlay .lyric-line {
+    color: rgba(15, 23, 42, 0.35) !important;
+}
+
+[data-theme="light"] #lyrics-overlay .lyric-line.active-lyric {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] #lyrics-overlay .lyric-line.past-lyric {
+    color: rgba(15, 23, 42, 0.22) !important;
+}
+
+[data-theme="light"] #lyrics-overlay .bg-black\/30,
+[data-theme="light"] #lyrics-overlay .bg-black\/40 {
+    background-color: rgba(255, 255, 255, 0.88) !important;
+    border-color: rgba(0, 0, 0, 0.08) !important;
+    color: #0f172a !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-theme="light"] #lyrics-overlay button.bg-white\/10 {
+    background-color: rgba(0, 0, 0, 0.05) !important;
+    color: #0f172a !important;
+}
