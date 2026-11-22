@@ -1,0 +1,12 @@
+{
+  "available": false,
+  "name": "Drowify Music",
+  "version": "",
+  "url": "",
+  "sizeBytes": 0,
+  "sha256": "",
+  "minAndroid": "Android 7.0 (API 24) atau lebih baru",
+  "releasedAt": "",
+  "changelog": [],
+  "note": "APK belum dibangun. Jalankan `npm run release:apk -- <path-ke-apk>` setelah APK resmi dibuat (lihat APK-BUILD.md)."
+}
